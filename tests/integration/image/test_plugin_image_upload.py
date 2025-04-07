@@ -19,8 +19,8 @@ BASE_CMD = ["linode-cli", "image-upload", "--region", REGION]
 
 # A minimal gzipped image that will be accepted by the API
 TEST_IMAGE_CONTENT = (
-    b"\x1F\x8B\x08\x08\xBD\x5C\x91\x60\x00\x03\x74\x65\x73\x74\x2E\x69"
-    b"\x6D\x67\x00\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+    b"\x1f\x8b\x08\x08\xbd\x5c\x91\x60\x00\x03\x74\x65\x73\x74\x2e\x69"
+    b"\x6d\x67\x00\x03\x00\x00\x00\x00\x00\x00\x00\x00\x00"
 )
 
 
@@ -199,3 +199,6 @@ def test_image_view(get_image_id):
 
     headers = ["label", "description"]
     assert_headers_in_lines(headers, lines)
+
+    # assert that regions in the output
+    assert "regions" in lines

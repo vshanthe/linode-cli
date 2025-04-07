@@ -5,6 +5,7 @@ CLI Operation logic
 import argparse
 import glob
 import json
+import logging
 import platform
 import re
 import sys
@@ -18,7 +19,11 @@ import openapi3.paths
 from openapi3.paths import Operation, Parameter
 
 from linodecli.baked.parsing import simplify_description
-from linodecli.baked.request import OpenAPIFilteringRequest, OpenAPIRequest
+from linodecli.baked.request import (
+    OpenAPIFilteringRequest,
+    OpenAPIRequest,
+    OpenAPIRequestArg,
+)
 from linodecli.baked.response import OpenAPIResponse
 from linodecli.exit_codes import ExitCodes
 from linodecli.output.output_handler import OutputHandler
@@ -396,9 +401,10 @@ class OpenAPIOperation:
         self.docs_url = self._resolve_operation_docs_url(operation)
 
         if self.docs_url is None:
-            print(
-                f"INFO: Could not resolve docs URL for {operation}",
-                file=sys.stderr,
+            logging.warning(
+                "%s %s Could not resolve docs URL for operation",
+                self.method.upper(),
+                self.url_path,
             )
 
         code_samples_ext = operation.extensions.get("code-samples")
@@ -414,6 +420,20 @@ class OpenAPIOperation:
         Return a list of attributes from the request schema
         """
         return self.request.attrs if self.request else []
+
+    @property
+    def arg_routes(self) -> Dict[str, List[OpenAPIRequestArg]]:
+        """
+        Return a list of attributes from the request schema
+        """
+        return self.request.attr_routes if self.request else []
+
+    @property
+    def attrs(self):
+        """
+        Return a list of attributes from the request schema
+        """
+        return self.response_model.attrs if self.response_model else []
 
     @staticmethod
     def _flatten_url_path(tag: str) -> str:
