@@ -59,7 +59,7 @@ jobs:
     steps:
       - name: Checkout Repository with SHA
         if: ${{ inputs.sha != '' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
@@ -67,7 +67,7 @@ jobs:
 
       - name: Checkout Repository without SHA
         if: ${{ inputs.sha == '' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
@@ -127,7 +127,7 @@ jobs:
 
       - name: Upload Test Report as Artifact
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: test-report-file
           if-no-files-found: ignore
@@ -170,7 +170,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
@@ -237,13 +237,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: 'recursive'
 
       - name: Download test report
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: test-report-file
 
